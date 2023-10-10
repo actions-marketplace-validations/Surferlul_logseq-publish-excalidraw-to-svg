@@ -54,7 +54,7 @@ def main() -> None:
         if svg is None:
             replace_dict[f"[[{draw}]]"] = "<h1 style='color: #ff0000'>MISSING IMAGE</h1>"
         else:
-            replace_dict[f"[[{draw}]]"] = f"![]({svg})"
+            replace_dict[f"[[{draw}]]"] = f"![{draw}](../{svg})"
 
     for page in pages:
         with open(page) as f:
