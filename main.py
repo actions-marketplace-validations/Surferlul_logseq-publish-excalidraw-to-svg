@@ -13,10 +13,10 @@ def iter_svgs(vault_path, draws):
     for draw in draws:
         svg = Path("assets/excalidraw_svg").joinpath(Path(draw).with_suffix(".svg").name)
         if vault_path.joinpath(svg).is_file():
-            print(svg)
+            print("[found]", svg)
             yield draw, svg
         else:
-            eprint(svg)
+            eprint("[missing]:", svg)
             yield draw, None
 
 
@@ -54,10 +54,7 @@ def main() -> None:
         if svg is None:
             replace_dict[f"[[{draw}]]"] = "<h1 style='color: #ff0000'>MISSING IMAGE</h1>"
         else:
-            replace_dict[f"[[{draw}]]"] = f"[[{svg}]]"
-
-    print(replace_dict)
-    print(pages)
+            replace_dict[f"[[{draw}]]"] = f"![]({svg})]"
 
     for page in pages:
         with open(page) as f:
