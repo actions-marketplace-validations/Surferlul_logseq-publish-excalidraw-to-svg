@@ -1,4 +1,4 @@
-name: GitHub Actions Demo
+name: Logseq Excalidraw to SVG
 run-name: Convert excalidraw to svg references
 on: [push]
 jobs:
