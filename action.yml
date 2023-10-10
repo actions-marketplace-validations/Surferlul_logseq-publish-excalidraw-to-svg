@@ -12,6 +12,6 @@ runs:
         python-version: '3.12'
         # Optional - x64 or x86 architecture, defaults to x64
         architecture: 'x64'
-    - run: python main.py ${{ github.workspace }}
+    - run: python ${{ github.action_path }}/main.py ${{ github.workspace }}
       shell: bash
 
