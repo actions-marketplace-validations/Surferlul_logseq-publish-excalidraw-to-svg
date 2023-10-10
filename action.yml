@@ -1,18 +1,17 @@
 name: Logseq Excalidraw to SVG
-run-name: Convert excalidraw to svg references
-on: [push]
-jobs:
-  Excalidraw-To-SVG:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out repository code
-        uses: actions/checkout@v4
-      - name: Set up Python 3.12
-        uses: actions/setup-python@v4
-        with:
-          # Semantic version range syntax or exact version of a Python version
-          python-version: '3.12'
-          # Optional - x64 or x86 architecture, defaults to x64
-          architecture: 'x64'
-      - run: python main.py ${{ github.workspace }}
+description: Converts excalidraw to svg references
+runs:
+  using: composite
+  steps:
+    - name: Check out repository code
+      uses: actions/checkout@v4
+    - name: Set up Python 3.12
+      uses: actions/setup-python@v4
+      with:
+        # Semantic version range syntax or exact version of a Python version
+        python-version: '3.12'
+        # Optional - x64 or x86 architecture, defaults to x64
+        architecture: 'x64'
+    - run: python main.py ${{ github.workspace }}
+      shell: bash
 
