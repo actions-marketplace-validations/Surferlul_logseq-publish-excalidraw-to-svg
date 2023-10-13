@@ -1,5 +1,9 @@
 name: Logseq Excalidraw to SVG
 description: Converts excalidraw to svg references
+inputs:
+  home-md-file:
+    description: Markdown file of the page you see when accessing the published site
+    required: false
 runs:
   using: composite
   steps:
@@ -10,6 +14,6 @@ runs:
         python-version: '3.12'
         # Optional - x64 or x86 architecture, defaults to x64
         architecture: 'x64'
-    - run: python ${{ github.action_path }}/main.py ${{ github.workspace }}
+    - run: python ${{ github.action_path }}/main.py ${{ github.workspace }} ${{ inputs.home-md-file}}
       shell: bash
 
