@@ -4,16 +4,23 @@ inputs:
   home-md-file:
     description: Markdown file of the page you see when accessing the published site
     required: false
+  dark-mode:
+    description: If drawings should be exported in dark mode
+    required: false
+    default: 'false'
 runs:
   using: composite
   steps:
-    - name: Set up Python 3.12
-      uses: actions/setup-python@v4
-      with:
-        # Semantic version range syntax or exact version of a Python version
-        python-version: '3.12'
-        # Optional - x64 or x86 architecture, defaults to x64
-        architecture: 'x64'
-    - run: python ${{ github.action_path }}/main.py "${{ github.workspace }}" "${{ github.workspace }}/${{ inputs.home-md-file}}"
+    - name: Start containers
+      run: docker-compose -f "${{ github.action_path }}/docker-compose.yml" up -d --build
+      shell: bash
+    - name: Creating SVG files
+      run: find "${{ github.workspace }}" -type f -name '*.excalidraw' -exec bash "${{ github.action_path }}/to_svg.sh" "{}" ${{ input.dark-mode == 'true' }} ";"
+      shell: bash
+    - name: Replace excalidraw file references
+      run: find "${{ github.workspace }}" -type f -name '*.md' -exec sed -ri 's|(\[\[.*\.excalidraw)(\]\])|\1.csv\2|g' "{}" ";"
+      shell: bash
+    - name: Stop containers
+      run: docker-compose -f "${{ github.action_path }}/docker-compose.yml" down
       shell: bash
 
