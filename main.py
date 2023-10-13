@@ -93,7 +93,7 @@ def main() -> None:
 \t\t\t- Rename the file so the base names match
 \t- ## The svgs for following drawing are missing"""
             for draw in missing_svgs:
-                file_error += "\n\t\t- `{draw}`"
+                file_error += f"\n\t\t- `{draw}`"
             with open(home_md_file, "a") as f:
                 f.write(file_error)
         else:
