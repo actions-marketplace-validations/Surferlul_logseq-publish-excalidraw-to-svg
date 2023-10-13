@@ -54,13 +54,13 @@ def main() -> None:
             home_md_file = None
     pages, draws = get_draws(vault_path)
 
-    missing_any_svgs = False
+    missing_svgs = []
 
     replace_dict = {}
     for draw, svg in iter_svgs(vault_path, draws):
         if svg is None:
             replace_dict[f"[[{draw}]]"] = "<h1 style='color: #ff0000'>MISSING IMAGE</h1>"
-            missing_any_svgs = True
+            missing_svgs.append(draw)
         else:
             replace_dict[f"[[{draw}]]"] = f"![{draw}](../{svg})"
 
@@ -74,11 +74,10 @@ def main() -> None:
         with open(page, "w") as f:
             f.write(content)
 
-    if missing_any_svgs:
+    if missing_svgs:
         if home_md_file is not None:
             eprint(f"::notice::Writing error message to {home_md_file}")
-            with open(home_md_file, "a") as f:
-                f.write("\n" + """
+            file_error = "\n" + f"""
 - <h1 style="color: red;">Some drawings were not loaded</h1>
 \t- ## How to fix as a Contributor
 \t\t- drawings are located in <vault path>/draws
@@ -92,8 +91,11 @@ def main() -> None:
 \t\t\t- Enable "Background" and check if you need Dark or Light theme
 \t\t\t- Click "SVG" and copy to <vault path>/assets/excalidraw_svgs
 \t\t\t- Rename the file so the base names match
-"""
-                        )
+\t- ## The svgs for following drawing are missing"""
+            for draw in missing_svgs:
+                file_error += "\n\t\t- `{draw}`"
+            with open(home_md_file, "a") as f:
+                f.write(file_error)
         else:
             eprint("::warning::home-md-file not set for logseq-publish-excalidraw-to-svg, won't write error message to "
                    "website")
