@@ -74,9 +74,11 @@ def main() -> None:
         with open(page, "w") as f:
             f.write(content)
 
-    if missing_any_svgs and home_md_file is not None:
-        with open(home_md_file, "a") as f:
-            f.write("\n" + """
+    if missing_any_svgs:
+        if home_md_file is not None:
+            eprint(f"::notice::Writing error message to {home_md_file}")
+            with open(home_md_file, "a") as f:
+                f.write("\n" + """
 - <h1 style="color: red;">Some drawings were not loaded</h1>
 \t- ## How to fix as a Contributor
 \t\t- drawings are located in <vault path>/draws
@@ -91,7 +93,10 @@ def main() -> None:
 \t\t\t- Click "SVG" and copy to <vault path>/assets/excalidraw_svgs
 \t\t\t- Rename the file so the base names match
 """
-                    )
+                        )
+        else:
+            eprint("::warning::home-md-file not set for logseq-publish-excalidraw-to-svg, won't write error message to "
+                   "website")
 
 
 if __name__ == "__main__":
