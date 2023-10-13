@@ -13,10 +13,10 @@ def iter_svgs(vault_path, draws):
     for draw in draws:
         svg = Path("assets/excalidraw_svg").joinpath(Path(draw).with_suffix(".svg").name)
         if vault_path.joinpath(svg).is_file():
-            print("::debug [found]", svg)
+            print("::debug::[found]", svg)
             yield draw, svg
         else:
-            eprint("::warning [missing]:", svg)
+            eprint("::error::[missing]", svg)
             yield draw, None
 
 
