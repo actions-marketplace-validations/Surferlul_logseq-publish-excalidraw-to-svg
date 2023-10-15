@@ -15,7 +15,7 @@ runs:
       run: find "${{ github.workspace }}" -type f -name '*.excalidraw' -exec bash "${{ github.action_path }}/to_svg.sh" "{}" ${{ inputs.dark-mode == 'true' }} ";"
       shell: bash
     - name: Replace excalidraw file references
-      run: find "${{ github.workspace }}" -type f -name '*.md' -exec sed -ri 's|(\[\[.*\.excalidraw)(\]\])|\1.csv\2|g' "{}" ";"
+      run: find "${{ github.workspace }}" -type f -name '*.md' -exec sed -ri 's|\[\[(.*\.excalidraw)\]\]|![\1](\1.csv)|g' "{}" ";"
       shell: bash
     - name: Stop containers
       run: docker-compose -f "${{ github.action_path }}/docker-compose.yml" down
