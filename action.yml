@@ -11,6 +11,8 @@ runs:
     - name: Start containers
       run: docker-compose -f "${{ github.action_path }}/docker-compose.yml" up -d --build
       shell: bash
+    - run: ${{ github.action_path }}/wait_for_kroki.sh
+      shell: bash
     - name: Creating SVG files
       run: find "${{ github.workspace }}" -type f -name '*.excalidraw' -exec bash "${{ github.action_path }}/to_svg.sh" "{}" ${{ inputs.dark-mode == 'true' }} ";"
       shell: bash

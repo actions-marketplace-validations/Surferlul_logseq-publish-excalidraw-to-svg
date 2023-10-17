@@ -8,3 +8,4 @@ echo ::debug::'$ENCODED' "$ENCODED"
 docker ps
 curl "localhost:8080/excalidraw/svg/$ENCODED" > "$1.svg"
 echo ::debug::"svg: $(cat $1.svg)"
+
