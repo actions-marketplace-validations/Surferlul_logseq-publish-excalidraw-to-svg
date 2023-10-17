@@ -19,8 +19,8 @@ runs:
     - name: Replace excalidraw file references
       run: find "${{ github.workspace }}" -type f -name '*.md' -exec sed -ri 's|\[\[(.*\.excalidraw)\]\]|![\1](assets/autogen/\1.svg)|g' "{}" ";"
       shell: bash
-    - name: Setup upterm session
-      uses: lhotari/action-upterm@v1
+    - name: Debug - Setup tmate session
+      uses: mxschmitt/action-tmate@v3
     - name: Stop containers
       run: docker-compose -f "${{ github.action_path }}/docker-compose.yml" down
       shell: bash
