@@ -6,11 +6,14 @@ inputs:
     required: false
     default: 'false'
   asset-repo:
-   description: Repository to store svg assets in
-   required: ture
+    description: Repository to store svg assets in
+    required: ture
   asset-repo-branch:
-   description: The branch to store the svg assets in
-   required: true
+    description: The branch to store the svg assets in
+    required: true
+  asset-repo-token:
+    descriptioin: Github token to access the asset repo when pulling and pushing
+    required: true
 runs:
   using: composite
   steps:
@@ -20,6 +23,7 @@ runs:
         repository: "${{ inputs.asset-repo }}"
         ref: "${{ inputs.asset-repo-branch }}"
         path: svg-repo
+        token: "${{ inputs.asset-repo-token }}"
     - run: mkdir -p svg-repo/svg-assets
       shell: bash
     - name: Start containers
