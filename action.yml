@@ -20,6 +20,7 @@ runs:
         repository: "${{ inputs.asset-repo }}@${{ inputs.asset-repo-branch }}"
         path: svg-repo
     - run: mkdir -p svg-repo/svg-assets
+      shell: bash
     - name: Start containers
       run: docker-compose -f "${{ github.action_path }}/docker-compose.yml" up -d --build
       shell: bash
