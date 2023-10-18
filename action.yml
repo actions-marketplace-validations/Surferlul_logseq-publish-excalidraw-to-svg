@@ -17,7 +17,8 @@ runs:
     - name: Check out logseq-tenset-theme repo
       uses: actions/checkout@v4
       with:
-        repository: "${{ inputs.asset-repo }}@${{ inputs.asset-repo-branch }}"
+        repository: "${{ inputs.asset-repo }}
+        ref: "${{ inputs.asset-repo-branch }}"
         path: svg-repo
     - run: mkdir -p svg-repo/svg-assets
       shell: bash
