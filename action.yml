@@ -7,7 +7,7 @@ inputs:
     default: 'false'
   asset-repo:
     description: Repository to store svg assets in
-    required: ture
+    required: true
   asset-repo-branch:
     description: The branch to store the svg assets in
     required: true
@@ -34,22 +34,11 @@ runs:
     - name: Creating SVG files
       run: (cd "${{ github.workspace }}" && find . -type f -name '*.excalidraw' -exec bash "${{ github.action_path }}/to_svg.sh" "{}" ${{ inputs.dark-mode == 'true' }} ";")
       shell: bash
-    - uses: EndBug/add-and-commit@v9 # You can change this to use a specific version.
+    - uses: EndBug/add-and-commit@v9
       with:
-        # The arguments for the `git add` command (see the paragraph below for more info)
-        # Default: '.'
         add: 'svg-assets'
-
-        # The name of the user that will be displayed as the author of the commit.
-        # Default: depends on the default_author input
         author_name: logseq-publish-excalidraw-to-svg
-
-        # The email of the user that will be displayed as the author of the commit.
-        # Default: depends on the default_author input
         author_email: mail@lu-dev.de
-
-        # The local path to the directory where your repository is located. You should use actions/checkout first to set it up.
-        # Default: '.'
         cwd: 'svg-repo'
     - name: Replace excalidraw file references
       run: find "${{ github.workspace }}" -type f -name '*.md' -exec sed -ri 's|\[\[(.*\.excalidraw)\]\]|![\1](https://raw.githubusercontent.com/${{ inputs.asset-repo }}/${{ inputs.asset-repo-branch }}/svg-assets/\1.svg)|g' "{}" ";"
