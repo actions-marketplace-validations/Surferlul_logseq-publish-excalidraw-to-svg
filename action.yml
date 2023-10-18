@@ -1,5 +1,5 @@
 name: Logseq Excalidraw to SVG
-description: Converts excalidraw to svg references
+description: A preprocessor for logseq-spa. Converts excalidraw to svg references
 inputs:
   dark-mode:
     description: If drawings should be exported in dark mode
